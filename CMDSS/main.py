@@ -16,12 +16,13 @@ if st.session_state.logged_in:
     # Sidebar shows everything once logged in
     pg = st.navigation({
         "Operations": [dashboard, predictor, data_entry],
-        "Account": [home_page]
+        "Account": [home]
     })
 else:
     # Sidebar ONLY shows Home until login
-    pg = st.navigation([home_page])
+    pg = st.navigation([home])
 
 
 pg.run()
+
 
