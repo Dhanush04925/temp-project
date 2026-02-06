@@ -1,0 +1,25 @@
+import streamlit as st
+
+st.set_page_config(page_title="Smart Canteen", layout="wide")
+
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
+# --- PAGE DEFINITIONS ---
+home_page = st.Page("pages/home.py", title="Home", icon="🏠", default=True)
+dashboard = st.Page("pages/dashboard.py", title="Dashboard", icon="📊")
+predictor = st.Page("pages/predictor.py", title="Predictor", icon="🔮")
+data_entry = st.Page("pages/data_entry.py", title="Data Entry", icon="📥")
+
+# --- NAVIGATION CONTROL ---
+if st.session_state.logged_in:
+    # Sidebar shows everything once logged in
+    pg = st.navigation({
+        "Operations": [dashboard, predictor, data_entry],
+        "Account": [home_page]
+    })
+else:
+    # Sidebar ONLY shows Home until login
+    pg = st.navigation([home_page])
+
+pg.run()
