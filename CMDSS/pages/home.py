@@ -58,16 +58,28 @@ if "owner_id" not in st.session_state:
         password = st.text_input("Password", type="password")
 
         if st.button("Login"):
+
             user = db.users.find_one({
                 "username": username,
                 "password": password
             })
-            if user:
-                st.session_state.owner_id = username
-                st.success("Login successful!")
-                st.rerun()
-            else:
+
+            if not user:
                 st.error("Invalid credentials")
+
+            else:
+                # Check approval status
+                if not user.get("approved", False):
+                    st.error("Your account is awaiting admin approval.")
+                
+                else:
+                    # Set session variables
+                    st.session_state.owner_id = username
+                    st.session_state.role = user.get("role", "owner")
+
+                    st.success("Login successful!")
+                    st.rerun()
+
 
     with tab2:
         with st.form("register_form"):
@@ -94,8 +106,11 @@ if "owner_id" not in st.session_state:
                     else:
                         db.users.insert_one({
                             "username": username,
-                            "password": password
+                            "password": password,
+                            "role": "owner",
+                            "approved": False
                         })
+
                         st.success("Registration successful! Awaiting admin approval.")
 
 # ---------------- LOGGED IN VIEW ----------------

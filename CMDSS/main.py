@@ -85,13 +85,26 @@ dashboard = st.Page("pages/Dashboard.py", title="Dashboard", icon="📊")
 predictor = st.Page("pages/Predictor.py", title="Predictor", icon="🔮")
 home = st.Page("pages/home.py", title="Home", icon="🏠")
 data_entry = st.Page("pages/data_entry.py", title="Data Entry", icon="📥")
+admin = st.Page("pages/admin.py", title="Admin", icon="👑")
 
 if "owner_id" in st.session_state:
-    pg = st.navigation({
-        "📊 Operations": [dashboard, predictor, data_entry],
-        "👤 Account": [home]
-    })
+
+    role = st.session_state.get("role", "owner")
+
+    if role == "admin":
+        pg = st.navigation({
+            "👑 Admin": [admin],
+            "📊 Operations": [dashboard, predictor, data_entry],
+            "👤 Account": [home]
+        })
+    else:
+        pg = st.navigation({
+            "📊 Operations": [dashboard, predictor, data_entry],
+            "👤 Account": [home]
+        })
 else:
     pg = st.navigation([home])
 
 pg.run()
+
+
