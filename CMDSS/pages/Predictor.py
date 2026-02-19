@@ -5,12 +5,11 @@ import math
 import pickle
 import datetime
 
-with open("CMDSS/models/rf_regressor.pkl", "rb") as f:
+with open("models/rf_regressor.pkl", "rb") as f:
 
     model = pickle.load(f)
 
-with open("CMDSS/models/encoders.pkl", "rb") as f:
-
+with open("models/encoders.pkl", "rb") as f:
     encoders = pickle.load(f)
 
 st.title("🔮 Item-wise Weekly Demand Predictor")
@@ -106,4 +105,55 @@ if st.button("Predict Item-wise Demand"):
     st.subheader("📊 Decision Support Summary")
     st.dataframe(result_df, use_container_width=True)
 
+    
+    st.markdown("### 🏆 Top Performing Items")
+    medals = ["🥇", "🥈", "🥉"]
+
+    for i, (_, row) in enumerate(result_df.head(3).iterrows()):
+        st.success(
+            f"{medals[i]} {row['Item']} → {row['Predicted Demand']} units | "
+            f"{row['Demand Level']} | {row['Trend']} | {row['Recommendation']}"
+        )
+
+    # ---------------- REASONING ----------------
+
+    st.markdown("---")
+    st.markdown("### 🧠 Reasoning Behind Predictions")
+
+    for item in items:
+
+        item_df = df[df["item"] == item]
+        st.markdown(f"#### {item}")
+
+        reasons = []
+
+        avg_rainy = item_df[item_df["weather"] == "Rainy"]["quantity"].mean()
+        avg_sunny = item_df[item_df["weather"] == "Sunny"]["quantity"].mean()
+
+        if pd.notna(avg_rainy) and pd.notna(avg_sunny):
+            if avg_rainy > avg_sunny:
+                reasons.append("🌧 Rainy days historically increase sales")
+
+        avg_finals = item_df[item_df["exams"] == "Finals"]["quantity"].mean()
+        avg_none = item_df[item_df["exams"] == "None"]["quantity"].mean()
+
+        if pd.notna(avg_finals) and pd.notna(avg_none):
+            if avg_finals > avg_none:
+                reasons.append("📚 Exam periods boost demand")
+
+        avg_evening = item_df[item_df["time_slot"] == "Evening"]["quantity"].mean()
+        avg_overall = item_df["quantity"].mean()
+
+        if pd.notna(avg_evening):
+            if avg_evening > avg_overall:
+                reasons.append("🌇 Evening consumption higher than average")
+
+        if reasons:
+            st.markdown("**Reason:**")
+            for r in reasons:
+                st.write(f"• {r}")
+        else:
+            st.write("• No strong historical pattern detected")
+
+        st.write(" ")
 

@@ -32,6 +32,7 @@ df["rolling_avg_3"] = (
     df.groupby("item")["quantity"]
       .transform(lambda x: x.rolling(3, min_periods=1).mean())
 )
+df["exams"] = df["exams"].fillna("None")
 
 # ------------------ ENCODING ------------------
 
@@ -112,3 +113,6 @@ with open("models/encoders.pkl", "wb") as f:
     pickle.dump(encoders, f)
 
 print("\n✅ Regression model trained and saved successfully.")
+for col in categorical_cols:
+    print(col, encoders[col].classes_)
+
