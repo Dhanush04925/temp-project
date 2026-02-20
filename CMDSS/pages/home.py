@@ -1,19 +1,6 @@
 import streamlit as st
 from utils.db_handler import get_db, fetch_sales_data
 from PIL import Image
-
-st.set_page_config(layout="wide")
-
-col1, col2 = st.columns([1, 6])
-
-with col1:
-    st.image("assets/logo.png", width=90)
-
-with col2:
-    st.markdown("""
-    # Smart Canteen Management System  
-    ### AI-Powered Decision Support & Demand Forecasting
-    """)
 st.set_page_config(layout="wide")
 
 st.title("🍽 Smart Canteen Management Decision Support System")
@@ -169,4 +156,5 @@ else:
     if st.button("Logout"):
         del st.session_state["owner_id"]
         st.rerun()
+
 
