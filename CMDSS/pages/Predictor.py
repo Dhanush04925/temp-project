@@ -184,9 +184,9 @@ if st.session_state["predicted_df"] is not None:
     medals = ["🥇", "🥈", "🥉"]
 
     for i, (_, row) in enumerate(result_df.head(3).iterrows()):
-
         st.success(f"{medals[i]} {row['Item']} → {row['Predicted Demand']} units")
-        st.markdown("---")
+    
+    st.markdown("---")
     st.markdown("## 🧠 Data-Driven Insights")
 
     for item in selected_items:
