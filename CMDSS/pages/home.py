@@ -12,30 +12,18 @@ Designed to help canteen managers make data-driven operational decisions.
 
 st.markdown("---")
 
-col1, col2 = st.columns([2, 1])
 
-with col1:
-    st.markdown("## 🚀 What This System Does")
+st.markdown("## 🚀 What This System Does")
 
-    st.markdown("""
+st.markdown("""
     - 📊 Analyze historical sales patterns  
     - 🔮 Predict next-day demand using advanced ML  
     - 📈 Monitor item-level performance  
     - 🏆 Identify high-demand items  
     - 📉 Reduce overproduction and stock-outs  
     - 🧠 Provide contextual reasoning insights  
-    """)
+""")
 
-with col2:
-    st.info("""
-    ### 🛠 Core Technologies
-    - Random Forest
-    - Gradient Boosting
-    - Time-Series Forecasting
-    - MongoDB Atlas
-    - Streamlit
-    - Plotly Visualization
-    """)
 
 st.markdown("---")
 
@@ -156,3 +144,4 @@ else:
     if st.button("Logout"):
         del st.session_state["owner_id"]
         st.rerun()
+
