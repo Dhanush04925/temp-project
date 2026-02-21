@@ -38,7 +38,7 @@ def add_bg_from_local(image_file):
     """, unsafe_allow_html=True)
 
 # CALL BACKGROUND
-add_bg_from_local("assets/canteen_bg2.png")
+add_bg_from_local("CMDS/assets/canteen_bg2.png")
 
 st.markdown("""
 <style>
@@ -231,4 +231,5 @@ else:
 
     if st.button("Logout"):
         del st.session_state["owner_id"]
+
         st.rerun()
