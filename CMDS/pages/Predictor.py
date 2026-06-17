@@ -5,6 +5,8 @@ import os
 import plotly.express as px
 from utils.db_handler import fetch_sales_data
 
+from sklearn.ensemble import GradientBoostingClassifier # <--- Ensure this is imported!
+
 
 # ---------------- SESSION STATE ----------------
 
